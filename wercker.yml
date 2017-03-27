@@ -22,7 +22,7 @@ push:
         password: $PASSWORD
         tag: $WERCKER_GIT_COMMIT
         repository: synax/project-asgard-hugo
-
+        registry: https://registry.hub.docker.com
 deploy:
 
   steps:  
