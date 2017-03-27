@@ -1,0 +1,46 @@
+box: nginx
+
+build:
+
+  steps:
+
+    - arjen/hugo-build:
+        version: "0.17"
+
+push:
+
+  steps:
+
+    - script:
+      name: Copy Hugo files to NGINX root
+      code: |
+          cp -a /pipeline/source/public/* /usr/share/nginx/html/
+          
+    - internal/docker-push:
+        cmd: nginx -g "daemon off;"
+        username: $USERNAME
+        password: $PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: synax/project-asgard-hugo
+        registry: https://registry.hub.docker.com
+
+deploy:
+
+  steps:  
+
+    - script:
+      name: Config file population
+      code: |
+          sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' config
+          sed -i -e 's|CA_PEM_FILE|'"${CA_PEM_FILE}"'|g' config
+          sed -i -e 's|ADMIN_PEM_FILE|'"${ADMIN_PEM_FILE}"'|g' config
+          sed -i -e 's|ADMIN_KEY_PEM_FILE|'"${ADMIN_KEY_PEM_FILE}"'|g' config
+
+    - kubectl:
+        server: $KUBE_ENDPOINT
+        username: $KUBE_USERNAME
+        command: --kubeconfig config --context fed set image deployment/project-asgard-hugo project-asgard-hugo=synax/project-asgard-hugo:$WERCKER_GIT_COMMIT
+
+    - script:
+      name: Remove config file
+      code: rm config

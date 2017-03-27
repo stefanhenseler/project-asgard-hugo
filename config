@@ -1,0 +1,20 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: CA_PEM_FILE
+    server: KUBE_ENDPOINT
+  name: fed
+contexts:
+- context:
+    cluster: fed
+    user: fed
+  name: fed
+current-context: fed
+kind: Config
+preferences: {}
+users:
+- name: fed
+  user:
+    client-certificate-data: ADMIN_PEM_FILE
+    client-key-data: ADMIN_KEY_PEM_FILE
+    username: admin
