@@ -38,7 +38,7 @@ deploy:
     - kubectl:
         server: $KUBE_ENDPOINT
         username: $KUBE_USERNAME
-        command: --kubeconfig config --context fed set image deployment/project-asgard-hugo project-asgard-hugo=synax/project-asgard-hugo:$WERCKER_GIT_COMMIT
+        command: --kubeconfig config --context federation set image deployment/hugo hugo=synax/project-asgard-hugo:$WERCKER_GIT_COMMIT
 
     - script:
       name: Remove config file
