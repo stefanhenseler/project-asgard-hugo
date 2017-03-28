@@ -37,7 +37,7 @@ deploy:
 
     - kubectl:
         server: $KUBE_ENDPOINT
-        username: $KUBE_USERNAME
+        username: admin
         command: --kubeconfig config --context federation set image deployment/hugo hugo=synax/project-asgard-hugo:$WERCKER_GIT_COMMIT
 
     - script:
