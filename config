@@ -3,17 +3,17 @@ clusters:
 - cluster:
     certificate-authority-data: CA_PEM_FILE
     server: KUBE_ENDPOINT
-  name: fed
+  name: federation
 contexts:
 - context:
-    cluster: fed
-    user: fed
-  name: fed
-current-context: fed
+    cluster: federation
+    user: federation
+  name: federation
+current-context: federation
 kind: Config
 preferences: {}
 users:
-- name: fed
+- name: federation
   user:
     client-certificate-data: ADMIN_PEM_FILE
     client-key-data: ADMIN_KEY_PEM_FILE
